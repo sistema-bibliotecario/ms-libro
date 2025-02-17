@@ -25,13 +25,13 @@ public class LibroController {
         return ResponseEntity.ok(libroService.obtenerLibroPorId(id));
     }
 
-    @PostMapping("/agregarLibros")
-    public ResponseEntity<Libro> agregar(@RequestBody Libro libro) {
-        return ResponseEntity.status(201).body(libroService.agregarLibro(libro));
+    @PostMapping("/agregarLibro")
+    public void agregar(@RequestBody Libro libro) {
+        libroService.agregarLibro(libro);
     }
 
     @PutMapping("/actualizarLibro/{id}")
-    public ResponseEntity<Libro> actualizar(@PathVariable Integer id, @RequestBody Libro libro) {
+    public ResponseEntity<String> actualizar(@PathVariable Integer id, @RequestBody Libro libro) {
         return ResponseEntity.ok(libroService.actualizarLibro(id, libro));
     }
 
@@ -41,12 +41,9 @@ public class LibroController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/buscar/titulo/{titulo}")
-    public ResponseEntity<List<Libro>> buscarPorTitulo(@PathVariable String titulo) {
-        return ResponseEntity.ok(libroService.listarLibros()
-                .stream()
-                .filter(libro -> libro.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
-                .toList());
+    @GetMapping("/libroPorIsbn")
+    public ResponseEntity<Libro> obtenerPorIsbn(@RequestParam String isbn) {
+        return ResponseEntity.ok(libroService.obtenerPorIsbn(isbn));
     }
 }
 

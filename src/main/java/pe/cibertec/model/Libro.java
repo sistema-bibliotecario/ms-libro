@@ -11,16 +11,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tbl_Libros")
+@Table(name = "tbl_Libro")
 public class Libro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idLibro;
+    private String isbn;
     private String titulo;
     private String autor;
     private String genero;
     private int anioPublicacion;
+    private int stock;
 }
 
 

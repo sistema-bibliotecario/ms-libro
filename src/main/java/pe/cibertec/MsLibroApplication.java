@@ -10,7 +10,7 @@ public class MsLibroApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MsLibroApplication.class, args);
-		System.out.println("Microservicio Libro iniciado correctamente");
+		System.out.println("ms-libro iniciado correctamente");
 	}
 
 }

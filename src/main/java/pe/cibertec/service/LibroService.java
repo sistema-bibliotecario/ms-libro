@@ -24,24 +24,31 @@ public class LibroService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro no encontrado"));
     }
 
-    public Libro agregarLibro(Libro libro) {
-        return libroRepository.save(libro);
+    public void agregarLibro(Libro libro) {
+        libroRepository.save(libro);
     }
 
-    public Libro actualizarLibro(Integer id, Libro libroActualizado) {
+    public String actualizarLibro(Integer id, Libro libroActualizado) {
         return libroRepository.findById(id).map(libro -> {
             libro.setTitulo(libroActualizado.getTitulo());
             libro.setAutor(libroActualizado.getAutor());
             libro.setGenero(libroActualizado.getGenero());
             libro.setAnioPublicacion(libroActualizado.getAnioPublicacion());
-            return libroRepository.save(libro);
+            libroRepository.save(libro);
+            return "Libro actualizado con exito";
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro no encontrado"));
     }
 
-    public void eliminarLibro(Integer id) {
-        if (!libroRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro no encontrado");
-        }
-        libroRepository.deleteById(id);
+    public String eliminarLibro(Integer id) {
+        return libroRepository.findById(id).
+                map(existingLibro -> {
+                    libroRepository.delete(existingLibro);
+                    return "Libro eliminado correctamente";
+                }).orElse("Libro no encontrado con ID: " + id);
+    }
+
+    public Libro obtenerPorIsbn(String isbn) {
+        return libroRepository.findByIsbn(isbn)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Libro no encontrado con ISBN: " + isbn));
     }
 }
